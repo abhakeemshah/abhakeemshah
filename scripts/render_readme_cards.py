@@ -430,6 +430,16 @@ def hero_card(data: dict, weeks) -> Card:
         f'<radialGradient id="particle"><stop offset="0" stop-color="#fff" stop-opacity=".95"/>'
         f'<stop offset=".25" stop-color="{BRAND}" stop-opacity=".9"/>'
         f'<stop offset="1" stop-color="{BRAND}" stop-opacity="0"/></radialGradient>'
+        f'<linearGradient id="hoodie" x1="0" y1="0" x2="1" y2="1">'
+        f'<stop offset="0" stop-color="#9B8CFF"/><stop offset="1" stop-color="#40358F"/></linearGradient>'
+        f'<linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">'
+        f'<stop offset="0" stop-color="#FFD8BC"/><stop offset=".7" stop-color="#D98D70"/>'
+        f'<stop offset="1" stop-color="#9D554D"/></linearGradient>'
+        f'<linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop offset="0" stop-color="#30264B"/><stop offset="1" stop-color="#120E24"/></linearGradient>'
+        f'<linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">'
+        f'<stop offset="0" stop-color="#24295C"/><stop offset="1" stop-color="#11142F"/></linearGradient>'
+        f'<filter id="softShadow"><feGaussianBlur stdDeviation="7"/></filter>'
     )
     c.add('<g clip-path="url(#card)"><circle class="drift" cx="790" cy="60" r="250" fill="url(#glow)"/></g>')
 
@@ -503,17 +513,29 @@ def hero_card(data: dict, weeks) -> Card:
     )
     c.add(f'<rect x="{n(48 + lw + 3)}" y="{n(182 - lsize * .85)}" width="2" height="{n(lsize * 1.1)}" fill="{BRAND}">'
           f'{reveal("x", 48, 48 + lw + 3, 0.6, 1.8)}{caret_motion}</rect>')
-    portrait = [
-        "    .-''''-.",
-        "   /  .--.  \\",
-        "  |  /    \\  |",
-        "  | |  .-. | |",
-        "   \\  '--'  /",
-        "    '-.__.-'",
-    ]
-    for i, line in enumerate(portrait):
-        c.text(690, 126 + i * 14, line, "b", 11,
-               BRAND if i in (0, 5) else MUTED, anim="fade", delay=500 + i * 45)
+    boy_motion = "" if STATIC else (
+        '<animateTransform attributeName="transform" type="translate" '
+        'values="0 3;0 -4;0 3" dur="5s" repeatCount="indefinite"/>'
+    )
+    boy = (
+        f'<g class="particle-glow" transform="translate(704 58)" style="animation-delay:700ms">'
+        f'<ellipse cx="92" cy="190" rx="74" ry="12" fill="#060817" opacity=".65" filter="url(#softShadow)"/>'
+        f'<g transform="translate(0 0)">{boy_motion}'
+        f'<path d="M25 190c4-48 21-70 67-70s64 22 68 70Z" fill="url(#hoodie)"/>'
+        f'<path d="M57 132c6-18 17-28 35-28s29 10 35 28l-18 22H75Z" fill="url(#shirt)"/>'
+        f'<path d="M83 108h26v27H83z" fill="url(#skin)"/>'
+        f'<ellipse cx="96" cy="76" rx="42" ry="48" fill="url(#skin)"/>'
+        f'<path d="M55 73c-4-38 17-61 45-61 28 0 46 20 43 57-10-12-19-20-31-23-18 18-36 25-57 27Z" fill="url(#hair)"/>'
+        f'<path d="M60 58c8-28 29-39 49-36 14 2 25 10 31 22-18-8-39-5-58 11Z" fill="#4B3764" opacity=".55"/>'
+        f'<ellipse cx="78" cy="77" rx="5" ry="7" fill="#121027"/><ellipse cx="114" cy="77" rx="5" ry="7" fill="#121027"/>'
+        f'<circle cx="80" cy="75" r="1.8" fill="#fff"/><circle cx="116" cy="75" r="1.8" fill="#fff"/>'
+        f'<path d="M94 83q-5 10 4 11" fill="none" stroke="#A55E56" stroke-width="2" stroke-linecap="round"/>'
+        f'<path d="M82 106q14 9 28 0" fill="none" stroke="#8E4548" stroke-width="3" stroke-linecap="round"/>'
+        f'<path d="M38 158q-14 6-20 23M154 158q14 6 20 23" fill="none" stroke="#7C6BFF" stroke-width="10" stroke-linecap="round"/>'
+        f'<path d="M29 190h38M125 190h38" stroke="#0A0C20" stroke-width="8" stroke-linecap="round"/>'
+        f'</g></g>'
+    )
+    c.add(boy)
     return c
 
 
