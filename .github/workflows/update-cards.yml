@@ -1,0 +1,117 @@
+name: Update profile cards
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out profile repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install renderer dependency
+        run: python -m pip install --disable-pip-version-check fonttools
+
+      - name: Fetch contribution data
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LOGIN: ${{ github.repository_owner }}
+        run: |
+          mkdir -p data
+          gh api graphql \
+            -f login="$LOGIN" \
+            -f query='
+              query($login: String!) {
+                user(login: $login) {
+                  login
+                  name
+                  public_repos: repositories(
+                    first: 1
+                    ownerAffiliations: OWNER
+                    privacy: PUBLIC
+                  ) { totalCount }
+                  followers { totalCount }
+                  contributionsCollection {
+                    contributionCalendar {
+                      totalContributions
+                      weeks {
+                        contributionDays { date contributionCount }
+                      }
+                    }
+                  }
+                  repositories(
+                    first: 6
+                    ownerAffiliations: OWNER
+                    privacy: PUBLIC
+                    isFork: false
+                    orderBy: {field: UPDATED_AT, direction: DESC}
+                  ) {
+                    nodes {
+                      name
+                      url
+                      description
+                      stargazerCount
+                      forkCount
+                      primaryLanguage { name color }
+                    }
+                  }
+                }
+              }' > /tmp/profile.json
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          source = json.loads(Path("/tmp/profile.json").read_text())["data"]["user"]
+          days = [
+              day
+              for week in source["contributionsCollection"]["contributionCalendar"]["weeks"]
+              for day in week["contributionDays"]
+          ]
+          repos = []
+          for repo in source["repositories"]["nodes"]:
+              language = repo.pop("primaryLanguage", None)
+              repos.append({
+                  "name": repo["name"],
+                  "url": repo["url"],
+                  "description": repo.get("description"),
+                  "stars": repo.pop("stargazerCount"),
+                  "forks": repo.pop("forkCount"),
+                  "language": language["name"] if language else None,
+                  "language_color": language["color"] if language else None,
+              })
+          payload = {
+              "login": source["login"],
+              "name": source.get("name") or source["login"],
+              "public_repos": source["public_repos"]["totalCount"],
+              "followers": source["followers"]["totalCount"],
+              "stars": sum(repo["stars"] for repo in repos),
+              "days": days,
+              "featured": repos,
+          }
+          Path("data/contributions.json").write_text(
+              json.dumps(payload, indent=2) + "\n", encoding="utf-8"
+          )
+          PY
+
+      - name: Render SVG cards
+        run: python scripts/render_readme_cards.py
+
+      - name: Commit updated cards
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md cards/ data/contributions.json
+          git diff --cached --quiet || git commit -m "Update profile cards"
+          git push
