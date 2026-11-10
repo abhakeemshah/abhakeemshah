@@ -2,7 +2,7 @@
 """Render the profile README cards into cards/*.svg.
 
     pip install fonttools
-    python scripts/render_cards.py
+    python scripts/render_readme_cards.py
 
 Reads data/contributions.json (refreshed daily by the GitHub Action) and writes:
 
@@ -24,6 +24,7 @@ import datetime as dt
 import io
 import json
 import math
+import os
 import re
 import sys
 import urllib.request
@@ -35,6 +36,7 @@ from fontTools import subset
 from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parent.parent
+STATIC = os.environ.get("STATIC", "").lower() in {"1", "true", "yes"}
 
 # ───────────────────────────── edit these ─────────────────────────────
 LOGIN = "abhakeemshah"
@@ -80,6 +82,11 @@ text.s{font-weight:600}
 .drift{animation:drift 18s ease-in-out infinite alternate}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 """.replace("%CELL0%", CELL0).replace("%BRAND%", BRAND)
+
+STATIC_CSS = """
+.rise,.fade{opacity:1!important;transform:none!important;animation:none!important}
+.grow,.drift{transform:none!important;animation:none!important}
+""".strip()
 
 
 # ─────────────────────────────── helpers ───────────────────────────────
@@ -144,6 +151,104 @@ def ensure_fonts(fonts_dir: Path) -> None:
                 dest.write_bytes(r.read())
 
 
+GRAPHQL_QUERY = """
+query($login: String!) {
+  user(login: $login) {
+    login
+    name
+    publicRepos: repositories(first: 1, ownerAffiliations: OWNER, privacy: PUBLIC) {
+      totalCount
+    }
+    followers { totalCount }
+    contributionsCollection {
+      contributionCalendar {
+        weeks {
+          contributionDays { date contributionCount }
+        }
+      }
+    }
+    featuredRepos: repositories(
+      first: 6
+      ownerAffiliations: OWNER
+      privacy: PUBLIC
+      isFork: false
+      orderBy: {field: UPDATED_AT, direction: DESC}
+    ) {
+      nodes {
+        name
+        url
+        description
+        stargazerCount
+        forkCount
+        primaryLanguage { name color }
+      }
+    }
+  }
+}
+"""
+
+
+def fetch_data(login: str, token: str) -> dict:
+    payload = json.dumps({
+        "query": GRAPHQL_QUERY,
+        "variables": {"login": login},
+    }).encode("utf-8")
+    request = urllib.request.Request(
+        "https://api.github.com/graphql",
+        data=payload,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+            "User-Agent": "profile-cards",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=60) as response:
+        result = json.loads(response.read().decode("utf-8"))
+    if result.get("errors") or not result.get("data", {}).get("user"):
+        raise RuntimeError(f"GitHub GraphQL request failed: {result.get('errors', result)}")
+
+    user = result["data"]["user"]
+    repos = []
+    for repo in user["featuredRepos"]["nodes"]:
+        language = repo.get("primaryLanguage")
+        repos.append({
+            "name": repo["name"],
+            "url": repo["url"],
+            "description": repo.get("description"),
+            "stars": repo["stargazerCount"],
+            "forks": repo["forkCount"],
+            "language": language["name"] if language else None,
+            "language_color": language["color"] if language else None,
+        })
+    days = [
+        {"date": day["date"], "count": day["contributionCount"]}
+        for week in user["contributionsCollection"]["contributionCalendar"]["weeks"]
+        for day in week["contributionDays"]
+    ]
+    return {
+        "login": user["login"],
+        "name": user.get("name") or user["login"],
+        "public_repos": user["publicRepos"]["totalCount"],
+        "followers": user["followers"]["totalCount"],
+        "stars": sum(repo["stars"] for repo in repos),
+        "days": days,
+        "featured": repos,
+    }
+
+
+def load_data(path: Path, login: str, token: str | None) -> dict:
+    if token:
+        data = fetch_data(login, token)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        return data
+    if not path.exists():
+        raise RuntimeError(f"{path} not found and GH_TOKEN is unavailable")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 FACES: dict[str, Face] = {}
 
 
@@ -190,13 +295,15 @@ class Card:
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{self.h}" '
             f'viewBox="0 0 {self.w} {self.h}" role="img" aria-labelledby="t d">\n'
             f'<title id="t">{esc(self.title)}</title>\n<desc id="d">{esc(self.desc or self.title)}</desc>\n'
-            f"<style>{faces}{BASE_CSS}{''.join(self.css)}</style>\n"
+            f"<style>{faces}{BASE_CSS}{STATIC_CSS if STATIC else ''}{''.join(self.css)}</style>\n"
             f"<defs>{''.join(self.defs)}</defs>\n" + "\n".join(self.body) + "\n</svg>\n"
         )
 
 
 def reveal(attr: str, start: float, end: float, delay: float, dur: float) -> str:
     """SMIL: hold at `start` for `delay` seconds, then ease to `end` and freeze."""
+    if STATIC:
+        return f'<set attributeName="{attr}" to="{n(end)}" fill="freeze"/>'
     total = delay + dur
     return (
         f'<animate attributeName="{attr}" values="{n(start)};{n(start)};{n(end)}" '
@@ -303,14 +410,17 @@ def fork_icon(x, y, color=MUTED) -> str:
 def hero_card(data: dict, weeks) -> Card:
     W, H = 900, 260
     c = Card("hero", W, H, NAME, TAGLINE)
+    sheen_motion = "" if STATIC else (
+        '<animateTransform attributeName="gradientTransform" type="translate" '
+        'from="0 0" to="1 0" dur="7s" repeatCount="indefinite"/>'
+    )
     c.defs.append(
         f'<radialGradient id="glow"><stop offset="0" stop-color="{BRAND}" stop-opacity=".4"/>'
         f'<stop offset="1" stop-color="{BRAND}" stop-opacity="0"/></radialGradient>'
         f'<linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0" spreadMethod="repeat">'
         f'<stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="{SHEEN}"/>'
         f'<stop offset="1" stop-color="#fff"/>'
-        f'<animateTransform attributeName="gradientTransform" type="translate" '
-        f'from="0 0" to="1 0" dur="7s" repeatCount="indefinite"/></linearGradient>'
+        f'{sheen_motion}</linearGradient>'
     )
     c.add('<g clip-path="url(#card)"><circle class="drift" cx="790" cy="60" r="250" fill="url(#glow)"/></g>')
 
@@ -325,7 +435,7 @@ def hero_card(data: dict, weeks) -> Card:
             if not d:
                 continue
             pulse = ('<animate attributeName="opacity" values="1;.25;1" dur="2.4s" repeatCount="indefinite"/>'
-                     if d["date"] == last else "")
+                     if d["date"] == last and not STATIC else "")
             cells.append(f'<rect class="l{d["level"]}" x="{n(x0 + i * pitch)}" y="{n(y0 + r * pitch)}" '
                          f'width="{size}" height="{size}" rx="3.5">{pulse}</rect>')
         c.add(f'<g class="fade" style="animation-delay:{500 + i * 70}ms">{"".join(cells)}</g>')
@@ -345,9 +455,22 @@ def hero_card(data: dict, weeks) -> Card:
     c.add('<g clip-path="url(#type)">')
     c.text(48, 182, line, "b", lsize, MUTED)
     c.add("</g>")
+    caret_motion = "" if STATIC else (
+        '<animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>'
+    )
     c.add(f'<rect x="{n(48 + lw + 3)}" y="{n(182 - lsize * .85)}" width="2" height="{n(lsize * 1.1)}" fill="{BRAND}">'
-          f'{reveal("x", 48, 48 + lw + 3, 0.6, 1.8)}'
-          f'<animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>')
+          f'{reveal("x", 48, 48 + lw + 3, 0.6, 1.8)}{caret_motion}</rect>')
+    portrait = [
+        "    .-''''-.",
+        "   /  .--.  \\",
+        "  |  /    \\  |",
+        "  | |  .-. | |",
+        "   \\  '--'  /",
+        "    '-.__.-'",
+    ]
+    for i, line in enumerate(portrait):
+        c.text(690, 126 + i * 14, line, "b", 11,
+               BRAND if i in (0, 5) else MUTED, anim="fade", delay=500 + i * 45)
     return c
 
 
@@ -444,9 +567,10 @@ def graph_card(data: dict, days: list[dict], weeks) -> Card:
         f'<linearGradient id="sweep"><stop offset="0" stop-color="#fff" stop-opacity="0"/>'
         f'<stop offset=".5" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
     )
-    c.add(f'<rect x="-90" y="{y0}" width="90" height="{gh}" fill="url(#sweep)" clip-path="url(#grid)">'
-          f'<animate attributeName="x" values="{x0 - 90};{x0 + gw};{x0 + gw}" keyTimes="0;.4;1" '
-          f'dur="14s" begin="2.5s" repeatCount="indefinite"/></rect>')
+    if not STATIC:
+        c.add(f'<rect x="-90" y="{y0}" width="90" height="{gh}" fill="url(#sweep)" clip-path="url(#grid)">'
+              f'<animate attributeName="x" values="{x0 - 90};{x0 + gw};{x0 + gw}" keyTimes="0;.4;1" '
+              f'dur="14s" begin="2.5s" repeatCount="indefinite"/></rect>')
 
     # Legend: Less ▢▢▢▢▢ More
     ly = y0 + gh + 30
@@ -508,16 +632,22 @@ def update_readme(path: Path, repos: list[dict]) -> bool:
 
 
 def main() -> None:
+    global STATIC
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--data", type=Path, default=ROOT / "data" / "contributions.json")
     ap.add_argument("--out", type=Path, default=ROOT / "cards")
     ap.add_argument("--readme", type=Path, default=ROOT / "README.md")
     ap.add_argument("--fonts", type=Path, default=ROOT / "fonts")
+    ap.add_argument("--static", action="store_true", help="render the final frame without motion")
     args = ap.parse_args()
+    STATIC = STATIC or args.static
 
-    if not args.data.exists():
-        sys.exit(f"{args.data} not found. Run scripts/fetch_contributions.py (or the Action) first.")
-    data = json.loads(args.data.read_text(encoding="utf-8"))
+    login = os.environ.get("GITHUB_REPOSITORY_OWNER", LOGIN)
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    try:
+        data = load_data(args.data, login, token)
+    except (OSError, RuntimeError, urllib.error.URLError, json.JSONDecodeError) as exc:
+        sys.exit(str(exc))
     days = load_days(data)
     weeks = build_weeks(days)
 
@@ -546,6 +676,20 @@ def main() -> None:
         if not out.exists() or out.read_text(encoding="utf-8") != svg:
             out.write_text(svg, encoding="utf-8")
         print(f"{out.relative_to(args.out.parent) if out.is_relative_to(args.out.parent) else out}  {len(svg) / 1024:.1f} KB")
+
+    aliases = {
+        "build": "tile-repositories",
+        "brand": "tile-stars",
+        "learn": "tile-followers",
+        "monthly_activity": "activity",
+        "contribution_graph": "graph",
+    }
+    for alias, source in aliases.items():
+        source_path = args.out / f"{source}.svg"
+        alias_path = args.out / f"{alias}.svg"
+        svg = source_path.read_text(encoding="utf-8")
+        if not alias_path.exists() or alias_path.read_text(encoding="utf-8") != svg:
+            alias_path.write_text(svg, encoding="utf-8")
 
     update_readme(args.readme, repos)
 
