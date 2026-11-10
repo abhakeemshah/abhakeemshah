@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""Refresh data/contributions.json from the GitHub GraphQL API.
+
+Writes the daily contribution calendar, follower / repo / star totals and the
+featured repositories that render_cards.py turns into SVG cards.
+
+Featured repos, in order of preference:
+  1. FEATURED_REPOS env var (comma-separated repo names you own)
+  2. your pinned repositories
+  3. your four most-starred public repositories
+
+Env: GH_TOKEN (required), GH_LOGIN (default: owner of GITHUB_REPOSITORY).
+Standard library only.
+"""
+from __future__ import annotations
+
+import json
+import os
+import sys
+import urllib.request
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "data" / "contributions.json"
+API = "https://api.github.com/graphql"
+
+LEVELS = {
+    "NONE": 0,
+    "FIRST_QUARTILE": 1,
+    "SECOND_QUARTILE": 2,
+    "THIRD_QUARTILE": 3,
+    "FOURTH_QUARTILE": 4,
+}
+
+QUERY = """
+fragment R on Repository {
+  name description url stargazerCount forkCount
+  primaryLanguage { name color }
+}
+query($login: String!, $after: String) {
+  user(login: $login) {
+    login name
+    followers { totalCount }
+    pinnedItems(first: 6, types: REPOSITORY) { nodes { ...R } }
+    repositories(first: 100, after: $after, ownerAffiliations: OWNER, isFork: false,
+                 privacy: PUBLIC, orderBy: {field: STARGAZERS, direction: DESC}) {
+      totalCount
+      pageInfo { hasNextPage endCursor }
+      nodes { ...R }
+    }
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks { contributionDays { date contributionCount contributionLevel } }
+      }
+    }
+  }
+}
+"""
+
+
+def gql(token: str, variables: dict) -> dict:
+    req = urllib.request.Request(
+        API,
+        data=json.dumps({"query": QUERY, "variables": variables}).encode(),
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+            "User-Agent": "profile-cards",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        payload = json.load(resp)
+    if payload.get("errors"):
+        sys.exit(f"GraphQL error: {json.dumps(payload['errors'], indent=2)}")
+    return payload["data"]["user"]
+
+
+def repo_row(node: dict) -> dict:
+    lang = node.get("primaryLanguage") or {}
+    return {
+        "name": node["name"],
+        "description": node.get("description") or "",
+        "url": node["url"],
+        "stars": node["stargazerCount"],
+        "forks": node["forkCount"],
+        "language": lang.get("name"),
+        "language_color": lang.get("color"),
+    }
+
+
+def main() -> None:
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    login = os.environ.get("GH_LOGIN") or os.environ.get("GITHUB_REPOSITORY", "/").split("/")[0]
+    if not token or not login:
+        sys.exit("Set GH_TOKEN and GH_LOGIN (or run inside GitHub Actions).")
+
+    user = gql(token, {"login": login, "after": None})
+    repos = list(user["repositories"]["nodes"])
+    page = user["repositories"]["pageInfo"]
+    while page["hasNextPage"]:
+        more = gql(token, {"login": login, "after": page["endCursor"]})["repositories"]
+        repos += more["nodes"]
+        page = more["pageInfo"]
+
+    wanted = [r.strip() for r in os.environ.get("FEATURED_REPOS", "").split(",") if r.strip()]
+    if wanted:
+        by_name = {r["name"].lower(): r for r in repos}
+        featured = [by_name[w.lower()] for w in wanted if w.lower() in by_name]
+        for w in wanted:
+            if w.lower() not in by_name:
+                print(f"warning: FEATURED_REPOS entry '{w}' not found", file=sys.stderr)
+    else:
+        featured = user["pinnedItems"]["nodes"] or repos[:4]
+
+    days = [
+        {
+            "date": d["date"],
+            "count": d["contributionCount"],
+            "level": LEVELS.get(d["contributionLevel"], 0),
+        }
+        for week in user["contributionsCollection"]["contributionCalendar"]["weeks"]
+        for d in week["contributionDays"]
+    ]
+    days.sort(key=lambda d: d["date"])
+
+    data = {
+        "login": user["login"],
+        "name": user["name"] or user["login"],
+        "followers": user["followers"]["totalCount"],
+        "public_repos": user["repositories"]["totalCount"],
+        "stars": sum(r["stargazerCount"] for r in repos),
+        "total_contributions": user["contributionsCollection"]["contributionCalendar"][
+            "totalContributions"
+        ],
+        "days": days,
+        "featured": [repo_row(r) for r in featured],
+    }
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
+    print(f"wrote {OUT.relative_to(ROOT)}: {len(days)} days, {len(data['featured'])} featured repos")
+
+
+if __name__ == "__main__":
+    main()
