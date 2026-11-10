@@ -75,7 +75,7 @@ jobs:
 
           source = json.loads(Path("/tmp/profile.json").read_text())["data"]["user"]
           days = [
-              day
+              {"date": day["date"], "count": day["contributionCount"]}
               for week in source["contributionsCollection"]["contributionCalendar"]["weeks"]
               for day in week["contributionDays"]
           ]
