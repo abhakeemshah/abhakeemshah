@@ -76,16 +76,22 @@ text.s{font-weight:600}
 @keyframes fade{from{opacity:0}}
 @keyframes grow{from{transform:scaleY(0)}}
 @keyframes drift{to{transform:translate(-40px,26px)}}
+@keyframes particleFloat{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.25}50%{transform:translate3d(18px,-24px,0) scale(1.35);opacity:.9}}
+@keyframes codeOrbit{0%,100%{transform:translate3d(0,0,0) rotate(-4deg);opacity:.2}50%{transform:translate3d(-18px,16px,0) rotate(4deg);opacity:.75}}
+@keyframes shimmer3d{0%,100%{filter:drop-shadow(0 0 2px %BRAND%);opacity:.35}50%{filter:drop-shadow(0 0 9px %BRAND%);opacity:1}}
 .rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
 .fade{animation:fade .6s ease-out backwards}
 .grow{transform-box:fill-box;transform-origin:50% 100%;animation:grow .85s cubic-bezier(.2,.7,.2,1) backwards}
 .drift{animation:drift 18s ease-in-out infinite alternate}
+.particle{animation:particleFloat 5s ease-in-out infinite}
+.code-orbit{animation:codeOrbit 8s ease-in-out infinite}
+.particle-glow{animation:shimmer3d 3.5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 """.replace("%CELL0%", CELL0).replace("%BRAND%", BRAND)
 
 STATIC_CSS = """
 .rise,.fade{opacity:1!important;transform:none!important;animation:none!important}
-.grow,.drift{transform:none!important;animation:none!important}
+.grow,.drift,.particle,.code-orbit,.particle-glow{transform:none!important;animation:none!important;filter:none!important}
 """.strip()
 
 
@@ -421,8 +427,45 @@ def hero_card(data: dict, weeks) -> Card:
         f'<stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="{SHEEN}"/>'
         f'<stop offset="1" stop-color="#fff"/>'
         f'{sheen_motion}</linearGradient>'
+        f'<radialGradient id="particle"><stop offset="0" stop-color="#fff" stop-opacity=".95"/>'
+        f'<stop offset=".25" stop-color="{BRAND}" stop-opacity=".9"/>'
+        f'<stop offset="1" stop-color="{BRAND}" stop-opacity="0"/></radialGradient>'
     )
     c.add('<g clip-path="url(#card)"><circle class="drift" cx="790" cy="60" r="250" fill="url(#glow)"/></g>')
+
+    # A small depth field: glowing particles and code fragments drift at different speeds.
+    particles = [
+        (590, 42, 3, 0), (635, 224, 2, 700), (715, 32, 4, 1100),
+        (775, 218, 2, 1500), (846, 78, 3, 1900), (865, 190, 5, 2300),
+        (552, 205, 2, 2700), (610, 78, 1.5, 3100), (740, 238, 2.5, 3500),
+        (830, 35, 1.5, 3900),
+    ]
+    for x, y, radius, delay in particles:
+        motion = "" if STATIC else (
+            f'<animateTransform attributeName="transform" type="translate" '
+            f'values="0 0;{(delay % 13) - 6} -12;0 0" dur="{4.5 + (delay % 5) / 2:.1f}s" '
+            f'begin="{delay / 1000:.2f}s" repeatCount="indefinite"/>'
+        )
+        c.add(f'<circle class="particle particle-glow" cx="{x}" cy="{y}" r="{radius}" '
+               f'fill="url(#particle)" style="animation-delay:{delay}ms">{motion}</circle>')
+
+    code_fragments = [
+        (575, 62, "</>", 0, 13), (790, 52, "git push", 900, 12),
+        (548, 178, "python", 1700, 11), (820, 150, "{ }", 2500, 16),
+        (705, 236, "const", 3300, 11), (855, 228, "SVG", 4200, 13),
+    ]
+    for x, y, word, delay, size in code_fragments:
+        clean = FACES["b"].clean(word)
+        used = set(clean)
+        c.used.setdefault("b", set()).update(used)
+        motion = "" if STATIC else (
+            f'<animateTransform attributeName="transform" type="translate" '
+            f'values="0 0;{-8 if delay % 2 else 8} 10;0 0" dur="7s" '
+            f'begin="{delay / 1000:.2f}s" repeatCount="indefinite"/>'
+        )
+        markup = (f'<text class="b code-orbit" x="{x}" y="{y}" font-size="{size}" fill="{BRAND}" '
+                  f'opacity=".55">{esc(clean)}{motion}</text>')
+        c.add(markup)
 
     # The last 12 weeks of real activity, drawn as the same cells the graph uses.
     pitch, size = 18, 14
