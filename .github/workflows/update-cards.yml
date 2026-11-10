@@ -108,6 +108,14 @@ jobs:
       - name: Render SVG cards
         run: python scripts/render_readme_cards.py
 
+      - name: Create README card aliases
+        run: |
+          cp cards/tile-repositories.svg cards/build.svg
+          cp cards/tile-stars.svg cards/brand.svg
+          cp cards/tile-followers.svg cards/learn.svg
+          cp cards/activity.svg cards/monthly_activity.svg
+          cp cards/graph.svg cards/contribution_graph.svg
+
       - name: Commit updated cards
         run: |
           git config user.name "github-actions[bot]"
