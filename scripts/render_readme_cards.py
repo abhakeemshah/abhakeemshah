@@ -42,11 +42,11 @@ STATIC = os.environ.get("STATIC", "").lower() in {"1", "true", "yes"}
 LOGIN = "abhakeemshah"
 NAME = "Abdul Hakeem Shah"
 TAGLINE = "I build software and write down what I learn along the way."
-BRAND = "#7C6BFF"          # your brand colour: bars, graph cells, accents
+BRAND = "#2F80ED"          # your brand colour: bars, graph cells, accents
 # ───────────────────────────────────────────────────────────────────────
 
-INK, SURFACE, LINE = "#0F1124", "#181B38", "#2B3060"
-TEXT, MUTED, CELL0, SHEEN = "#EEF0FF", "#A0A7D6", "#212650", "#CFC9FF"
+INK, SURFACE, LINE = "#0B1F3A", "#123B6D", "#2A5D91"
+TEXT, MUTED, CELL0, SHEEN = "#FFFFFF", "#D9EAFE", "#1B4F86", "#BFE0FF"
 
 # Fonts are fetched once into fonts/ (OFL licensed) and subset per card.
 IBM = "https://raw.githubusercontent.com/IBM/plex/master/packages/plex-sans/fonts/complete/ttf/"
@@ -513,29 +513,6 @@ def hero_card(data: dict, weeks) -> Card:
     )
     c.add(f'<rect x="{n(48 + lw + 3)}" y="{n(182 - lsize * .85)}" width="2" height="{n(lsize * 1.1)}" fill="{BRAND}">'
           f'{reveal("x", 48, 48 + lw + 3, 0.6, 1.8)}{caret_motion}</rect>')
-    boy_motion = "" if STATIC else (
-        '<animateTransform attributeName="transform" type="translate" '
-        'values="0 3;0 -4;0 3" dur="5s" repeatCount="indefinite"/>'
-    )
-    boy = (
-        f'<g class="particle-glow" transform="translate(704 58)" style="animation-delay:700ms">'
-        f'<ellipse cx="92" cy="190" rx="74" ry="12" fill="#060817" opacity=".65" filter="url(#softShadow)"/>'
-        f'<g transform="translate(0 0)">{boy_motion}'
-        f'<path d="M25 190c4-48 21-70 67-70s64 22 68 70Z" fill="url(#hoodie)"/>'
-        f'<path d="M57 132c6-18 17-28 35-28s29 10 35 28l-18 22H75Z" fill="url(#shirt)"/>'
-        f'<path d="M83 108h26v27H83z" fill="url(#skin)"/>'
-        f'<ellipse cx="96" cy="76" rx="42" ry="48" fill="url(#skin)"/>'
-        f'<path d="M55 73c-4-38 17-61 45-61 28 0 46 20 43 57-10-12-19-20-31-23-18 18-36 25-57 27Z" fill="url(#hair)"/>'
-        f'<path d="M60 58c8-28 29-39 49-36 14 2 25 10 31 22-18-8-39-5-58 11Z" fill="#4B3764" opacity=".55"/>'
-        f'<ellipse cx="78" cy="77" rx="5" ry="7" fill="#121027"/><ellipse cx="114" cy="77" rx="5" ry="7" fill="#121027"/>'
-        f'<circle cx="80" cy="75" r="1.8" fill="#fff"/><circle cx="116" cy="75" r="1.8" fill="#fff"/>'
-        f'<path d="M94 83q-5 10 4 11" fill="none" stroke="#A55E56" stroke-width="2" stroke-linecap="round"/>'
-        f'<path d="M82 106q14 9 28 0" fill="none" stroke="#8E4548" stroke-width="3" stroke-linecap="round"/>'
-        f'<path d="M38 158q-14 6-20 23M154 158q14 6 20 23" fill="none" stroke="#7C6BFF" stroke-width="10" stroke-linecap="round"/>'
-        f'<path d="M29 190h38M125 190h38" stroke="#0A0C20" stroke-width="8" stroke-linecap="round"/>'
-        f'</g></g>'
-    )
-    c.add(boy)
     return c
 
 

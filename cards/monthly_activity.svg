@@ -5,18 +5,18 @@
 text{font-family:'IBM Plex Sans',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:400}
 text.d{font-family:'DM Serif Display',Georgia,'Times New Roman',serif}
 text.s{font-weight:600}
-.l0{fill:#212650}
-.l1{fill:#7C6BFF;fill-opacity:.3}
-.l2{fill:#7C6BFF;fill-opacity:.55}
-.l3{fill:#7C6BFF;fill-opacity:.8}
-.l4{fill:#7C6BFF}
+.l0{fill:#1B4F86}
+.l1{fill:#2F80ED;fill-opacity:.3}
+.l2{fill:#2F80ED;fill-opacity:.55}
+.l3{fill:#2F80ED;fill-opacity:.8}
+.l4{fill:#2F80ED}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes grow{from{transform:scaleY(0)}}
 @keyframes drift{to{transform:translate(-40px,26px)}}
 @keyframes particleFloat{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.25}50%{transform:translate3d(18px,-24px,0) scale(1.35);opacity:.9}}
 @keyframes codeOrbit{0%,100%{transform:translate3d(0,0,0) rotate(-4deg);opacity:.2}50%{transform:translate3d(-18px,16px,0) rotate(4deg);opacity:.75}}
-@keyframes shimmer3d{0%,100%{filter:drop-shadow(0 0 2px #7C6BFF);opacity:.35}50%{filter:drop-shadow(0 0 9px #7C6BFF);opacity:1}}
+@keyframes shimmer3d{0%,100%{filter:drop-shadow(0 0 2px #2F80ED);opacity:.35}50%{filter:drop-shadow(0 0 9px #2F80ED);opacity:1}}
 .rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
 .fade{animation:fade .6s ease-out backwards}
 .grow{transform-box:fill-box;transform-origin:50% 100%;animation:grow .85s cubic-bezier(.2,.7,.2,1) backwards}
@@ -26,54 +26,54 @@ text.s{font-weight:600}
 .particle-glow{animation:shimmer3d 3.5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#181B38"/><stop offset="1" stop-color="#0F1124"/></linearGradient><clipPath id="card"><rect width="900" height="440" rx="18"/></clipPath></defs>
-<rect x=".5" y=".5" width="899" height="439" rx="18" fill="url(#bg)" stroke="#2B3060"/>
-<text class="d rise" x="48" y="66" font-size="30" fill="#EEF0FF" style="animation-delay:0ms">Contributions per month</text>
-<text class="b fade" x="852" y="64" font-size="15" fill="#A0A7D6" text-anchor="end" style="animation-delay:150ms">320 in the last year</text>
-<text class="d rise" x="48" y="148" font-size="46" fill="#EEF0FF" style="animation-delay:200ms">0</text>
-<text class="b rise" x="79.1" y="148" font-size="16" fill="#A0A7D6" style="animation-delay:200ms">days</text>
-<text class="b rise" x="48" y="174" font-size="14" fill="#A0A7D6" style="animation-delay:200ms">Current streak</text>
-<text class="d rise" x="316" y="148" font-size="46" fill="#EEF0FF" style="animation-delay:300ms">47</text>
-<text class="b rise" x="371.2" y="148" font-size="16" fill="#A0A7D6" style="animation-delay:300ms">of 370 days</text>
-<text class="b rise" x="316" y="174" font-size="14" fill="#A0A7D6" style="animation-delay:300ms">Active days</text>
-<text class="d rise" x="584" y="148" font-size="46" fill="#EEF0FF" style="animation-delay:400ms">42</text>
-<text class="b rise" x="641.2" y="148" font-size="16" fill="#A0A7D6" style="animation-delay:400ms">on May 18</text>
-<text class="b rise" x="584" y="174" font-size="14" fill="#A0A7D6" style="animation-delay:400ms">Busiest day</text>
-<path class="grow" style="animation-delay:450ms" fill="#7C6BFF" fill-opacity="0.5" d="M62.5 392V392Q62.5 385.3 69.2 385.3H93.8Q100.5 385.3 100.5 392V392Z"/>
-<text class="b fade" x="81.5" y="376.3" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:900ms">5</text>
-<text class="b fade" x="81.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:600ms">Dec</text>
-<path class="grow" style="animation-delay:505ms" fill="#7C6BFF" fill-opacity="0.5" d="M129.5 392V351.8Q129.5 344.8 136.5 344.8H160.5Q167.5 344.8 167.5 351.8V392Z"/>
-<text class="b fade" x="148.5" y="335.8" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:955ms">35</text>
-<text class="b fade" x="148.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:655ms">Jan</text>
-<path class="grow" style="animation-delay:560ms" fill="#7C6BFF" fill-opacity="0.5" d="M196.5 392V392Q196.5 389 199.5 389H231.5Q234.5 389 234.5 392V392Z"/>
-<text class="b fade" x="215.5" y="380" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1010ms">2</text>
-<text class="b fade" x="215.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:710ms">Feb</text>
-<path class="grow" style="animation-delay:615ms" fill="#7C6BFF" fill-opacity="0.5" d="M263.5 392V392Q263.5 389 266.5 389H298.5Q301.5 389 301.5 392V392Z"/>
-<text class="b fade" x="282.5" y="380" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1065ms">2</text>
-<text class="b fade" x="282.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:765ms">Mar</text>
-<path class="grow" style="animation-delay:670ms" fill="#7C6BFF" fill-opacity="0.5" d="M330.5 392V380.1Q330.5 373.1 337.5 373.1H361.5Q368.5 373.1 368.5 380.1V392Z"/>
-<text class="b fade" x="349.5" y="364.1" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1120ms">14</text>
-<text class="b fade" x="349.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:820ms">Apr</text>
-<path class="grow" style="animation-delay:725ms" fill="#7C6BFF" fill-opacity="1" d="M397.5 392V233Q397.5 226 404.5 226H428.5Q435.5 226 435.5 233V392Z"/>
-<text class="s fade" x="416.5" y="217" font-size="13" fill="#EEF0FF" text-anchor="middle" style="animation-delay:1175ms">123</text>
-<text class="b fade" x="416.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:875ms">May</text>
-<path class="grow" style="animation-delay:780ms" fill="#7C6BFF" fill-opacity="0.5" d="M464.5 392V338.3Q464.5 331.3 471.5 331.3H495.5Q502.5 331.3 502.5 338.3V392Z"/>
-<text class="b fade" x="483.5" y="322.3" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1230ms">45</text>
-<text class="b fade" x="483.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:930ms">Jun</text>
-<path class="grow" style="animation-delay:835ms" fill="#7C6BFF" fill-opacity="0.5" d="M531.5 392V308.6Q531.5 301.6 538.5 301.6H562.5Q569.5 301.6 569.5 308.6V392Z"/>
-<text class="b fade" x="550.5" y="292.6" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1285ms">67</text>
-<text class="b fade" x="550.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:985ms">Jul</text>
-<path class="grow" style="animation-delay:890ms" fill="#7C6BFF" fill-opacity="0.5" d="M598.5 392V376.1Q598.5 369.1 605.5 369.1H629.5Q636.5 369.1 636.5 376.1V392Z"/>
-<text class="b fade" x="617.5" y="360.1" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1340ms">17</text>
-<text class="b fade" x="617.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1040ms">Aug</text>
-<path class="grow" style="animation-delay:945ms" fill="#7C6BFF" fill-opacity="0.5" d="M665.5 392V392Q665.5 389 668.5 389H700.5Q703.5 389 703.5 392V392Z"/>
-<text class="b fade" x="684.5" y="380" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1395ms">0</text>
-<text class="b fade" x="684.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1095ms">Sep</text>
-<path class="grow" style="animation-delay:1000ms" fill="#7C6BFF" fill-opacity="0.5" d="M732.5 392V392Q732.5 389 735.5 389H767.5Q770.5 389 770.5 392V392Z"/>
-<text class="b fade" x="751.5" y="380" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1450ms">0</text>
-<text class="b fade" x="751.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1150ms">Oct</text>
-<path class="grow" style="animation-delay:1055ms" fill="#7C6BFF" fill-opacity="0.5" d="M799.5 392V385.5Q799.5 378.5 806.5 378.5H830.5Q837.5 378.5 837.5 385.5V392Z"/>
-<text class="b fade" x="818.5" y="369.5" font-size="13" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1505ms">10</text>
-<text class="b fade" x="818.5" y="418" font-size="14" fill="#A0A7D6" text-anchor="middle" style="animation-delay:1205ms">Nov</text>
-<line x1="48" y1="392" x2="48" y2="392" stroke="#2B3060" stroke-width="1.5" stroke-linecap="round"><animate attributeName="x2" values="48;48;852" keyTimes="0;0.200;1" dur="1.50s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .2 1"/></line>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#123B6D"/><stop offset="1" stop-color="#0B1F3A"/></linearGradient><clipPath id="card"><rect width="900" height="440" rx="18"/></clipPath></defs>
+<rect x=".5" y=".5" width="899" height="439" rx="18" fill="url(#bg)" stroke="#2A5D91"/>
+<text class="d rise" x="48" y="66" font-size="30" fill="#FFFFFF" style="animation-delay:0ms">Contributions per month</text>
+<text class="b fade" x="852" y="64" font-size="15" fill="#D9EAFE" text-anchor="end" style="animation-delay:150ms">320 in the last year</text>
+<text class="d rise" x="48" y="148" font-size="46" fill="#FFFFFF" style="animation-delay:200ms">0</text>
+<text class="b rise" x="79.1" y="148" font-size="16" fill="#D9EAFE" style="animation-delay:200ms">days</text>
+<text class="b rise" x="48" y="174" font-size="14" fill="#D9EAFE" style="animation-delay:200ms">Current streak</text>
+<text class="d rise" x="316" y="148" font-size="46" fill="#FFFFFF" style="animation-delay:300ms">47</text>
+<text class="b rise" x="371.2" y="148" font-size="16" fill="#D9EAFE" style="animation-delay:300ms">of 370 days</text>
+<text class="b rise" x="316" y="174" font-size="14" fill="#D9EAFE" style="animation-delay:300ms">Active days</text>
+<text class="d rise" x="584" y="148" font-size="46" fill="#FFFFFF" style="animation-delay:400ms">42</text>
+<text class="b rise" x="641.2" y="148" font-size="16" fill="#D9EAFE" style="animation-delay:400ms">on May 18</text>
+<text class="b rise" x="584" y="174" font-size="14" fill="#D9EAFE" style="animation-delay:400ms">Busiest day</text>
+<path class="grow" style="animation-delay:450ms" fill="#2F80ED" fill-opacity="0.5" d="M62.5 392V392Q62.5 385.3 69.2 385.3H93.8Q100.5 385.3 100.5 392V392Z"/>
+<text class="b fade" x="81.5" y="376.3" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:900ms">5</text>
+<text class="b fade" x="81.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:600ms">Dec</text>
+<path class="grow" style="animation-delay:505ms" fill="#2F80ED" fill-opacity="0.5" d="M129.5 392V351.8Q129.5 344.8 136.5 344.8H160.5Q167.5 344.8 167.5 351.8V392Z"/>
+<text class="b fade" x="148.5" y="335.8" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:955ms">35</text>
+<text class="b fade" x="148.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:655ms">Jan</text>
+<path class="grow" style="animation-delay:560ms" fill="#2F80ED" fill-opacity="0.5" d="M196.5 392V392Q196.5 389 199.5 389H231.5Q234.5 389 234.5 392V392Z"/>
+<text class="b fade" x="215.5" y="380" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1010ms">2</text>
+<text class="b fade" x="215.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:710ms">Feb</text>
+<path class="grow" style="animation-delay:615ms" fill="#2F80ED" fill-opacity="0.5" d="M263.5 392V392Q263.5 389 266.5 389H298.5Q301.5 389 301.5 392V392Z"/>
+<text class="b fade" x="282.5" y="380" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1065ms">2</text>
+<text class="b fade" x="282.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:765ms">Mar</text>
+<path class="grow" style="animation-delay:670ms" fill="#2F80ED" fill-opacity="0.5" d="M330.5 392V380.1Q330.5 373.1 337.5 373.1H361.5Q368.5 373.1 368.5 380.1V392Z"/>
+<text class="b fade" x="349.5" y="364.1" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1120ms">14</text>
+<text class="b fade" x="349.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:820ms">Apr</text>
+<path class="grow" style="animation-delay:725ms" fill="#2F80ED" fill-opacity="1" d="M397.5 392V233Q397.5 226 404.5 226H428.5Q435.5 226 435.5 233V392Z"/>
+<text class="s fade" x="416.5" y="217" font-size="13" fill="#FFFFFF" text-anchor="middle" style="animation-delay:1175ms">123</text>
+<text class="b fade" x="416.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:875ms">May</text>
+<path class="grow" style="animation-delay:780ms" fill="#2F80ED" fill-opacity="0.5" d="M464.5 392V338.3Q464.5 331.3 471.5 331.3H495.5Q502.5 331.3 502.5 338.3V392Z"/>
+<text class="b fade" x="483.5" y="322.3" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1230ms">45</text>
+<text class="b fade" x="483.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:930ms">Jun</text>
+<path class="grow" style="animation-delay:835ms" fill="#2F80ED" fill-opacity="0.5" d="M531.5 392V308.6Q531.5 301.6 538.5 301.6H562.5Q569.5 301.6 569.5 308.6V392Z"/>
+<text class="b fade" x="550.5" y="292.6" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1285ms">67</text>
+<text class="b fade" x="550.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:985ms">Jul</text>
+<path class="grow" style="animation-delay:890ms" fill="#2F80ED" fill-opacity="0.5" d="M598.5 392V376.1Q598.5 369.1 605.5 369.1H629.5Q636.5 369.1 636.5 376.1V392Z"/>
+<text class="b fade" x="617.5" y="360.1" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1340ms">17</text>
+<text class="b fade" x="617.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1040ms">Aug</text>
+<path class="grow" style="animation-delay:945ms" fill="#2F80ED" fill-opacity="0.5" d="M665.5 392V392Q665.5 389 668.5 389H700.5Q703.5 389 703.5 392V392Z"/>
+<text class="b fade" x="684.5" y="380" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1395ms">0</text>
+<text class="b fade" x="684.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1095ms">Sep</text>
+<path class="grow" style="animation-delay:1000ms" fill="#2F80ED" fill-opacity="0.5" d="M732.5 392V392Q732.5 389 735.5 389H767.5Q770.5 389 770.5 392V392Z"/>
+<text class="b fade" x="751.5" y="380" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1450ms">0</text>
+<text class="b fade" x="751.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1150ms">Oct</text>
+<path class="grow" style="animation-delay:1055ms" fill="#2F80ED" fill-opacity="0.5" d="M799.5 392V385.5Q799.5 378.5 806.5 378.5H830.5Q837.5 378.5 837.5 385.5V392Z"/>
+<text class="b fade" x="818.5" y="369.5" font-size="13" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1505ms">10</text>
+<text class="b fade" x="818.5" y="418" font-size="14" fill="#D9EAFE" text-anchor="middle" style="animation-delay:1205ms">Nov</text>
+<line x1="48" y1="392" x2="48" y2="392" stroke="#2A5D91" stroke-width="1.5" stroke-linecap="round"><animate attributeName="x2" values="48;48;852" keyTimes="0;0.200;1" dur="1.50s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .2 1"/></line>
 </svg>

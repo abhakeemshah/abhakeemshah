@@ -5,18 +5,18 @@
 text{font-family:'IBM Plex Sans',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:400}
 text.d{font-family:'DM Serif Display',Georgia,'Times New Roman',serif}
 text.s{font-weight:600}
-.l0{fill:#212650}
-.l1{fill:#7C6BFF;fill-opacity:.3}
-.l2{fill:#7C6BFF;fill-opacity:.55}
-.l3{fill:#7C6BFF;fill-opacity:.8}
-.l4{fill:#7C6BFF}
+.l0{fill:#1B4F86}
+.l1{fill:#2F80ED;fill-opacity:.3}
+.l2{fill:#2F80ED;fill-opacity:.55}
+.l3{fill:#2F80ED;fill-opacity:.8}
+.l4{fill:#2F80ED}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes grow{from{transform:scaleY(0)}}
 @keyframes drift{to{transform:translate(-40px,26px)}}
 @keyframes particleFloat{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.25}50%{transform:translate3d(18px,-24px,0) scale(1.35);opacity:.9}}
 @keyframes codeOrbit{0%,100%{transform:translate3d(0,0,0) rotate(-4deg);opacity:.2}50%{transform:translate3d(-18px,16px,0) rotate(4deg);opacity:.75}}
-@keyframes shimmer3d{0%,100%{filter:drop-shadow(0 0 2px #7C6BFF);opacity:.35}50%{filter:drop-shadow(0 0 9px #7C6BFF);opacity:1}}
+@keyframes shimmer3d{0%,100%{filter:drop-shadow(0 0 2px #2F80ED);opacity:.35}50%{filter:drop-shadow(0 0 9px #2F80ED);opacity:1}}
 .rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
 .fade{animation:fade .6s ease-out backwards}
 .grow{transform-box:fill-box;transform-origin:50% 100%;animation:grow .85s cubic-bezier(.2,.7,.2,1) backwards}
@@ -26,26 +26,26 @@ text.s{font-weight:600}
 .particle-glow{animation:shimmer3d 3.5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#181B38"/><stop offset="1" stop-color="#0F1124"/></linearGradient><clipPath id="card"><rect width="900" height="240" rx="18"/></clipPath><clipPath id="grid"><rect x="72" y="94" width="792" height="102"/></clipPath><linearGradient id="sweep"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
-<rect x=".5" y=".5" width="899" height="239" rx="18" fill="url(#bg)" stroke="#2B3060"/>
-<text class="d rise" x="48" y="60" font-size="28" fill="#EEF0FF" style="animation-delay:0ms">Contribution graph</text>
-<text class="b fade" x="852" y="58" font-size="15" fill="#A0A7D6" text-anchor="end" style="animation-delay:150ms">320 contributions in the last year</text>
-<text class="b fade" x="72" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Nov</text>
-<text class="b fade" x="132" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Dec</text>
-<text class="b fade" x="192" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Jan</text>
-<text class="b fade" x="252" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Feb</text>
-<text class="b fade" x="312" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Mar</text>
-<text class="b fade" x="387" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Apr</text>
-<text class="b fade" x="447" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">May</text>
-<text class="b fade" x="522" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Jun</text>
-<text class="b fade" x="582" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Jul</text>
-<text class="b fade" x="642" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Aug</text>
-<text class="b fade" x="717" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Sep</text>
-<text class="b fade" x="777" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Oct</text>
-<text class="b fade" x="837" y="82" font-size="12" fill="#A0A7D6" style="animation-delay:300ms">Nov</text>
-<text class="b fade" x="64" y="119" font-size="11" fill="#A0A7D6" text-anchor="end" style="animation-delay:300ms">Mon</text>
-<text class="b fade" x="64" y="149" font-size="11" fill="#A0A7D6" text-anchor="end" style="animation-delay:300ms">Wed</text>
-<text class="b fade" x="64" y="179" font-size="11" fill="#A0A7D6" text-anchor="end" style="animation-delay:300ms">Fri</text>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#123B6D"/><stop offset="1" stop-color="#0B1F3A"/></linearGradient><clipPath id="card"><rect width="900" height="240" rx="18"/></clipPath><clipPath id="grid"><rect x="72" y="94" width="792" height="102"/></clipPath><linearGradient id="sweep"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+<rect x=".5" y=".5" width="899" height="239" rx="18" fill="url(#bg)" stroke="#2A5D91"/>
+<text class="d rise" x="48" y="60" font-size="28" fill="#FFFFFF" style="animation-delay:0ms">Contribution graph</text>
+<text class="b fade" x="852" y="58" font-size="15" fill="#D9EAFE" text-anchor="end" style="animation-delay:150ms">320 contributions in the last year</text>
+<text class="b fade" x="72" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Nov</text>
+<text class="b fade" x="132" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Dec</text>
+<text class="b fade" x="192" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Jan</text>
+<text class="b fade" x="252" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Feb</text>
+<text class="b fade" x="312" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Mar</text>
+<text class="b fade" x="387" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Apr</text>
+<text class="b fade" x="447" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">May</text>
+<text class="b fade" x="522" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Jun</text>
+<text class="b fade" x="582" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Jul</text>
+<text class="b fade" x="642" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Aug</text>
+<text class="b fade" x="717" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Sep</text>
+<text class="b fade" x="777" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Oct</text>
+<text class="b fade" x="837" y="82" font-size="12" fill="#D9EAFE" style="animation-delay:300ms">Nov</text>
+<text class="b fade" x="64" y="119" font-size="11" fill="#D9EAFE" text-anchor="end" style="animation-delay:300ms">Mon</text>
+<text class="b fade" x="64" y="149" font-size="11" fill="#D9EAFE" text-anchor="end" style="animation-delay:300ms">Wed</text>
+<text class="b fade" x="64" y="179" font-size="11" fill="#D9EAFE" text-anchor="end" style="animation-delay:300ms">Fri</text>
 <g class="fade" style="animation-delay:200ms"><rect class="l0" x="72" y="94" width="12" height="12" rx="3"/><rect class="l0" x="72" y="109" width="12" height="12" rx="3"/><rect class="l0" x="72" y="124" width="12" height="12" rx="3"/><rect class="l0" x="72" y="139" width="12" height="12" rx="3"/><rect class="l0" x="72" y="154" width="12" height="12" rx="3"/><rect class="l0" x="72" y="169" width="12" height="12" rx="3"/><rect class="l0" x="72" y="184" width="12" height="12" rx="3"/></g>
 <g class="fade" style="animation-delay:216ms"><rect class="l0" x="87" y="94" width="12" height="12" rx="3"/><rect class="l0" x="87" y="109" width="12" height="12" rx="3"/><rect class="l0" x="87" y="124" width="12" height="12" rx="3"/><rect class="l0" x="87" y="139" width="12" height="12" rx="3"/><rect class="l0" x="87" y="154" width="12" height="12" rx="3"/><rect class="l0" x="87" y="169" width="12" height="12" rx="3"/><rect class="l0" x="87" y="184" width="12" height="12" rx="3"/></g>
 <g class="fade" style="animation-delay:232ms"><rect class="l0" x="102" y="94" width="12" height="12" rx="3"/><rect class="l0" x="102" y="109" width="12" height="12" rx="3"/><rect class="l0" x="102" y="124" width="12" height="12" rx="3"/><rect class="l0" x="102" y="139" width="12" height="12" rx="3"/><rect class="l0" x="102" y="154" width="12" height="12" rx="3"/><rect class="l0" x="102" y="169" width="12" height="12" rx="3"/><rect class="l0" x="102" y="184" width="12" height="12" rx="3"/></g>
@@ -100,7 +100,7 @@ text.s{font-weight:600}
 <g class="fade" style="animation-delay:1016ms"><rect class="l0" x="837" y="94" width="12" height="12" rx="3"/><rect class="l0" x="837" y="109" width="12" height="12" rx="3"/><rect class="l0" x="837" y="124" width="12" height="12" rx="3"/><rect class="l0" x="837" y="139" width="12" height="12" rx="3"/><rect class="l0" x="837" y="154" width="12" height="12" rx="3"/><rect class="l0" x="837" y="169" width="12" height="12" rx="3"/><rect class="l0" x="837" y="184" width="12" height="12" rx="3"/></g>
 <g class="fade" style="animation-delay:1032ms"><rect class="l0" x="852" y="94" width="12" height="12" rx="3"/><rect class="l0" x="852" y="109" width="12" height="12" rx="3"/><rect class="l1" x="852" y="124" width="12" height="12" rx="3"/><rect class="l1" x="852" y="139" width="12" height="12" rx="3"/><rect class="l0" x="852" y="154" width="12" height="12" rx="3"/><rect class="l0" x="852" y="169" width="12" height="12" rx="3"/></g>
 <rect x="-90" y="94" width="90" height="102" fill="url(#sweep)" clip-path="url(#grid)"><animate attributeName="x" values="-18;864;864" keyTimes="0;.4;1" dur="14s" begin="2.5s" repeatCount="indefinite"/></rect>
-<text class="b fade" x="852" y="236" font-size="12" fill="#A0A7D6" text-anchor="end" style="animation-delay:400ms">More</text>
+<text class="b fade" x="852" y="236" font-size="12" fill="#D9EAFE" text-anchor="end" style="animation-delay:400ms">More</text>
 <rect class="l0" x="744.5" y="226" width="12" height="12" rx="3"/><rect class="l1" x="759.5" y="226" width="12" height="12" rx="3"/><rect class="l2" x="774.5" y="226" width="12" height="12" rx="3"/><rect class="l3" x="789.5" y="226" width="12" height="12" rx="3"/><rect class="l4" x="804.5" y="226" width="12" height="12" rx="3"/>
-<text class="b fade" x="736.5" y="236" font-size="12" fill="#A0A7D6" text-anchor="end" style="animation-delay:400ms">Less</text>
+<text class="b fade" x="736.5" y="236" font-size="12" fill="#D9EAFE" text-anchor="end" style="animation-delay:400ms">Less</text>
 </svg>
