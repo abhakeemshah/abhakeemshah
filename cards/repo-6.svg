@@ -29,8 +29,8 @@ text.s{font-weight:600}
 <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F9FF"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient><clipPath id="card"><rect width="900" height="150" rx="18"/></clipPath></defs>
 <rect x=".5" y=".5" width="899" height="149" rx="18" fill="url(#bg)" stroke="#B8D7F5"/>
 <text class="d rise" x="48" y="52" font-size="26" fill="#0B1F3A" style="animation-delay:360ms">visual-harmony</text>
-<rect x="48" y="60" width="182.5" height="2" rx="1" fill="#E55353"><animate attributeName="width" values="0;0;182.5" keyTimes="0;0.588;1" dur="1.70s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .2 1"/></rect>
-<path transform="translate(836 28)" d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="#E55353" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="48" y="60" width="182.5" height="2" rx="1" fill="#0F9D9A"><animate attributeName="width" values="0;0;182.5" keyTimes="0;0.588;1" dur="1.70s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .2 1"/></rect>
+<path transform="translate(836 28)" d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="#0F9D9A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 <text class="b fade" x="48" y="88" font-size="15" fill="#416B95" style="animation-delay:610ms">No description yet.</text>
 <circle cx="53" cy="125" r="5" fill="#3178c6"/>
 <text class="b fade" x="66" y="130" font-size="14" fill="#0B1F3A" style="animation-delay:350ms">TypeScript</text>

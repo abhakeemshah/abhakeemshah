@@ -46,7 +46,10 @@ BRAND = "#1976D2"          # primary blue
 RED = "#E55353"             # highlights and alerts
 GREEN = "#2E9D68"           # activity and success
 AMBER = "#D99018"           # secondary accents
-ACCENTS = (BRAND, RED, GREEN, AMBER)
+PURPLE = "#8B5CF6"          # creative accents
+TEAL = "#0F9D9A"            # technical accents
+PINK = "#D94680"            # expressive accents
+ACCENTS = (BRAND, RED, GREEN, AMBER, PURPLE, TEAL, PINK)
 # ───────────────────────────────────────────────────────────────────────
 
 INK, SURFACE, LINE = "#FFFFFF", "#F4F9FF", "#B8D7F5"
@@ -516,7 +519,7 @@ def hero_card(data: dict, weeks) -> Card:
     caret_motion = "" if STATIC else (
         '<animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>'
     )
-    c.add(f'<rect x="{n(48 + lw + 3)}" y="{n(182 - lsize * .85)}" width="2" height="{n(lsize * 1.1)}" fill="{BRAND}">'
+    c.add(f'<rect x="{n(48 + lw + 3)}" y="{n(182 - lsize * .85)}" width="2" height="{n(lsize * 1.1)}" fill="{PINK}">'
           f'{reveal("x", 48, 48 + lw + 3, 0.6, 1.8)}{caret_motion}</rect>')
     return c
 
