@@ -5,18 +5,18 @@
 text{font-family:'IBM Plex Sans',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-weight:400}
 text.d{font-family:'DM Serif Display',Georgia,'Times New Roman',serif}
 text.s{font-weight:600}
-.l0{fill:#1B4F86}
-.l1{fill:#2F80ED;fill-opacity:.3}
-.l2{fill:#2F80ED;fill-opacity:.55}
-.l3{fill:#2F80ED;fill-opacity:.8}
-.l4{fill:#2F80ED}
+.l0{fill:#E6F1FC}
+.l1{fill:#1976D2;fill-opacity:.3}
+.l2{fill:#1976D2;fill-opacity:.55}
+.l3{fill:#1976D2;fill-opacity:.8}
+.l4{fill:#1976D2}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes grow{from{transform:scaleY(0)}}
 @keyframes drift{to{transform:translate(-40px,26px)}}
 @keyframes particleFloat{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.25}50%{transform:translate3d(18px,-24px,0) scale(1.35);opacity:.9}}
 @keyframes codeOrbit{0%,100%{transform:translate3d(0,0,0) rotate(-4deg);opacity:.2}50%{transform:translate3d(-18px,16px,0) rotate(4deg);opacity:.75}}
-@keyframes shimmer3d{0%,100%{filter:drop-shadow(0 0 2px #2F80ED);opacity:.35}50%{filter:drop-shadow(0 0 9px #2F80ED);opacity:1}}
+@keyframes shimmer3d{0%,100%{filter:drop-shadow(0 0 2px #1976D2);opacity:.35}50%{filter:drop-shadow(0 0 9px #1976D2);opacity:1}}
 .rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards}
 .fade{animation:fade .6s ease-out backwards}
 .grow{transform-box:fill-box;transform-origin:50% 100%;animation:grow .85s cubic-bezier(.2,.7,.2,1) backwards}
@@ -26,11 +26,11 @@ text.s{font-weight:600}
 .particle-glow{animation:shimmer3d 3.5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#123B6D"/><stop offset="1" stop-color="#0B1F3A"/></linearGradient><clipPath id="card"><rect width="300" height="140" rx="18"/></clipPath><radialGradient id="tg" cx="1" cy="0" r="1"><stop offset="0" stop-color="#2F80ED" stop-opacity=".35"/><stop offset="1" stop-color="#2F80ED" stop-opacity="0"/></radialGradient></defs>
-<rect x=".5" y=".5" width="299" height="139" rx="18" fill="url(#bg)" stroke="#2A5D91"/>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F9FF"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient><clipPath id="card"><rect width="300" height="140" rx="18"/></clipPath><radialGradient id="tg" cx="1" cy="0" r="1"><stop offset="0" stop-color="#1976D2" stop-opacity=".35"/><stop offset="1" stop-color="#1976D2" stop-opacity="0"/></radialGradient></defs>
+<rect x=".5" y=".5" width="299" height="139" rx="18" fill="url(#bg)" stroke="#B8D7F5"/>
 <g clip-path="url(#card)"><rect width="300" height="140" fill="url(#tg)"/></g>
-<text class="d rise" x="26" y="84" font-size="54" fill="#FFFFFF" style="animation-delay:220ms">3</text>
-<text class="b fade" x="26" y="114" font-size="16" fill="#D9EAFE" style="animation-delay:520ms">Followers</text>
-<rect x="26" y="121" width="70.3" height="2" rx="1" fill="#2F80ED"><animate attributeName="width" values="0;0;70.3" keyTimes="0;0.514;1" dur="1.44s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .2 1"/></rect>
-<path transform="translate(260 22)" d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="#2F80ED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="d rise" x="26" y="84" font-size="54" fill="#0B1F3A" style="animation-delay:220ms">3</text>
+<text class="b fade" x="26" y="114" font-size="16" fill="#416B95" style="animation-delay:520ms">Followers</text>
+<rect x="26" y="121" width="70.3" height="2" rx="1" fill="#1976D2"><animate attributeName="width" values="0;0;70.3" keyTimes="0;0.514;1" dur="1.44s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .2 1"/></rect>
+<path transform="translate(260 22)" d="M3 13 13 3M5.5 3H13v7.5" fill="none" stroke="#1976D2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

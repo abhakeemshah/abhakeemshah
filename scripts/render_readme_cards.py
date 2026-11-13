@@ -42,11 +42,11 @@ STATIC = os.environ.get("STATIC", "").lower() in {"1", "true", "yes"}
 LOGIN = "abhakeemshah"
 NAME = "Abdul Hakeem Shah"
 TAGLINE = "I build software and write down what I learn along the way."
-BRAND = "#2F80ED"          # your brand colour: bars, graph cells, accents
+BRAND = "#1976D2"          # your brand colour: bars, graph cells, accents
 # ───────────────────────────────────────────────────────────────────────
 
-INK, SURFACE, LINE = "#0B1F3A", "#123B6D", "#2A5D91"
-TEXT, MUTED, CELL0, SHEEN = "#FFFFFF", "#D9EAFE", "#1B4F86", "#BFE0FF"
+INK, SURFACE, LINE = "#FFFFFF", "#F4F9FF", "#B8D7F5"
+TEXT, MUTED, CELL0, SHEEN = "#0B1F3A", "#416B95", "#E6F1FC", "#1976D2"
 
 # Fonts are fetched once into fonts/ (OFL licensed) and subset per card.
 IBM = "https://raw.githubusercontent.com/IBM/plex/master/packages/plex-sans/fonts/complete/ttf/"
@@ -424,8 +424,8 @@ def hero_card(data: dict, weeks) -> Card:
         f'<radialGradient id="glow"><stop offset="0" stop-color="{BRAND}" stop-opacity=".4"/>'
         f'<stop offset="1" stop-color="{BRAND}" stop-opacity="0"/></radialGradient>'
         f'<linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0" spreadMethod="repeat">'
-        f'<stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="{SHEEN}"/>'
-        f'<stop offset="1" stop-color="#fff"/>'
+        f'<stop offset="0" stop-color="#0B5CAD"/><stop offset=".5" stop-color="{SHEEN}"/>'
+        f'<stop offset="1" stop-color="#0B5CAD"/>'
         f'{sheen_motion}</linearGradient>'
         f'<radialGradient id="particle"><stop offset="0" stop-color="#fff" stop-opacity=".95"/>'
         f'<stop offset=".25" stop-color="{BRAND}" stop-opacity=".9"/>'
