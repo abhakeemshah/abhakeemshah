@@ -6,10 +6,10 @@ text{font-family:'IBM Plex Sans',-apple-system,'Segoe UI',Helvetica,Arial,sans-s
 text.d{font-family:'DM Serif Display',Georgia,'Times New Roman',serif}
 text.s{font-weight:600}
 .l0{fill:#E6F1FC}
-.l1{fill:#1976D2;fill-opacity:.3}
-.l2{fill:#1976D2;fill-opacity:.55}
-.l3{fill:#1976D2;fill-opacity:.8}
-.l4{fill:#1976D2}
+.l1{fill:#B7E4C7}
+.l2{fill:#74C69D}
+.l3{fill:#2E9D68}
+.l4{fill:#167A4A}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes grow{from{transform:scaleY(0)}}

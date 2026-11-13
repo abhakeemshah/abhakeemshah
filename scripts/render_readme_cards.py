@@ -42,11 +42,16 @@ STATIC = os.environ.get("STATIC", "").lower() in {"1", "true", "yes"}
 LOGIN = "abhakeemshah"
 NAME = "Abdul Hakeem Shah"
 TAGLINE = "I build software and write down what I learn along the way."
-BRAND = "#1976D2"          # your brand colour: bars, graph cells, accents
+BRAND = "#1976D2"          # primary blue
+RED = "#E55353"             # highlights and alerts
+GREEN = "#2E9D68"           # activity and success
+AMBER = "#D99018"           # secondary accents
+ACCENTS = (BRAND, RED, GREEN, AMBER)
 # ───────────────────────────────────────────────────────────────────────
 
 INK, SURFACE, LINE = "#FFFFFF", "#F4F9FF", "#B8D7F5"
 TEXT, MUTED, CELL0, SHEEN = "#0B1F3A", "#416B95", "#E6F1FC", "#1976D2"
+LEVELS = (CELL0, "#B7E4C7", "#74C69D", "#2E9D68", "#167A4A")
 
 # Fonts are fetched once into fonts/ (OFL licensed) and subset per card.
 IBM = "https://raw.githubusercontent.com/IBM/plex/master/packages/plex-sans/fonts/complete/ttf/"
@@ -68,10 +73,10 @@ text{font-family:'IBM Plex Sans',-apple-system,'Segoe UI',Helvetica,Arial,sans-s
 text.d{font-family:'DM Serif Display',Georgia,'Times New Roman',serif}
 text.s{font-weight:600}
 .l0{fill:%CELL0%}
-.l1{fill:%BRAND%;fill-opacity:.3}
-.l2{fill:%BRAND%;fill-opacity:.55}
-.l3{fill:%BRAND%;fill-opacity:.8}
-.l4{fill:%BRAND%}
+.l1{fill:%LEVEL1%}
+.l2{fill:%LEVEL2%}
+.l3{fill:%LEVEL3%}
+.l4{fill:%LEVEL4%}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes grow{from{transform:scaleY(0)}}
@@ -87,7 +92,7 @@ text.s{font-weight:600}
 .code-orbit{animation:codeOrbit 8s ease-in-out infinite}
 .particle-glow{animation:shimmer3d 3.5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
-""".replace("%CELL0%", CELL0).replace("%BRAND%", BRAND)
+""".replace("%CELL0%", CELL0).replace("%BRAND%", BRAND).replace("%LEVEL1%", LEVELS[1]).replace("%LEVEL2%", LEVELS[2]).replace("%LEVEL3%", LEVELS[3]).replace("%LEVEL4%", LEVELS[4])
 
 STATIC_CSS = """
 .rise,.fade{opacity:1!important;transform:none!important;animation:none!important}
@@ -464,7 +469,7 @@ def hero_card(data: dict, weeks) -> Card:
         (548, 178, "python", 1700, 11), (820, 150, "{ }", 2500, 16),
         (705, 236, "const", 3300, 11), (855, 228, "SVG", 4200, 13),
     ]
-    for x, y, word, delay, size in code_fragments:
+    for fragment_index, (x, y, word, delay, size) in enumerate(code_fragments):
         clean = FACES["b"].clean(word)
         used = set(clean)
         c.used.setdefault("b", set()).update(used)
@@ -473,7 +478,7 @@ def hero_card(data: dict, weeks) -> Card:
             f'values="0 0;{-8 if delay % 2 else 8} 10;0 0" dur="7s" '
             f'begin="{delay / 1000:.2f}s" repeatCount="indefinite"/>'
         )
-        markup = (f'<text class="b code-orbit" x="{x}" y="{y}" font-size="{size}" fill="{BRAND}" '
+        markup = (f'<text class="b code-orbit" x="{x}" y="{y}" font-size="{size}" fill="{ACCENTS[fragment_index % len(ACCENTS)]}" '
                   f'opacity=".55">{esc(clean)}{motion}</text>')
         c.add(markup)
 
@@ -519,18 +524,19 @@ def hero_card(data: dict, weeks) -> Card:
 def tile_card(idx: int, slug: str, value: int, label: str) -> Card:
     W, H = 300, 140
     c = Card(f"tile-{slug}", W, H, f"{label}: {value:,}")
+    accent = ACCENTS[idx % len(ACCENTS)]
     c.defs.append(
-        f'<radialGradient id="tg" cx="1" cy="0" r="1"><stop offset="0" stop-color="{BRAND}" stop-opacity=".35"/>'
-        f'<stop offset="1" stop-color="{BRAND}" stop-opacity="0"/></radialGradient>'
+        f'<radialGradient id="tg" cx="1" cy="0" r="1"><stop offset="0" stop-color="{accent}" stop-opacity=".35"/>'
+        f'<stop offset="1" stop-color="{accent}" stop-opacity="0"/></radialGradient>'
     )
     c.add(f'<g clip-path="url(#card)"><rect width="{W}" height="{H}" fill="url(#tg)"/></g>')
     c.text(26, 84, short(value), "d", 54, TEXT, anim="rise", delay=idx * 110)
     shown = c.text(26, 114, label, "b", 16, MUTED, anim="fade", delay=300 + idx * 110)
     lw = FACES["b"].width(shown, 16)
     # Underline = this tile is a link.
-    c.add(f'<rect x="26" y="121" width="{n(lw)}" height="2" rx="1" fill="{BRAND}">'
+    c.add(f'<rect x="26" y="121" width="{n(lw)}" height="2" rx="1" fill="{accent}">'
           f'{reveal("width", 0, lw, 0.5 + idx * 0.12, 0.7)}</rect>')
-    c.add(arrow_icon(W - 40, 22))
+    c.add(arrow_icon(W - 40, 22, accent))
     return c
 
 
@@ -627,12 +633,13 @@ def graph_card(data: dict, days: list[dict], weeks) -> Card:
 def repo_card(idx: int, repo: dict) -> Card:
     W, H = 900, 150
     c = Card(f"repo-{idx}", W, H, repo["name"], repo.get("description") or repo["name"])
+    accent = ACCENTS[(idx - 1) % len(ACCENTS)]
     name, nsize = fit_line(repo["name"], "d", 26, 720, 16)
     c.text(48, 52, name, "d", nsize, TEXT, anim="rise", delay=idx * 60)
     nw = FACES["d"].width(name, nsize)
-    c.add(f'<rect x="48" y="60" width="{n(nw)}" height="2" rx="1" fill="{BRAND}">'
+    c.add(f'<rect x="48" y="60" width="{n(nw)}" height="2" rx="1" fill="{accent}">'
           f'{reveal("width", 0, nw, 0.4 + idx * 0.1, 0.7)}</rect>')
-    c.add(arrow_icon(W - 48 - 16, 28))
+    c.add(arrow_icon(W - 48 - 16, 28, accent))
 
     desc = repo.get("description") or "No description yet."
     for i, line in enumerate(wrap(desc, "b", 15, 760, 2)):
