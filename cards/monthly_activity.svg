@@ -34,7 +34,7 @@ text.s{font-weight:600}
 <text class="b rise" x="79.1" y="148" font-size="16" fill="#416B95" style="animation-delay:200ms">days</text>
 <text class="b rise" x="48" y="174" font-size="14" fill="#416B95" style="animation-delay:200ms">Current streak</text>
 <text class="d rise" x="316" y="148" font-size="46" fill="#0B1F3A" style="animation-delay:300ms">48</text>
-<text class="b rise" x="371.8" y="148" font-size="16" fill="#416B95" style="animation-delay:300ms">of 367 days</text>
+<text class="b rise" x="371.8" y="148" font-size="16" fill="#416B95" style="animation-delay:300ms">of 368 days</text>
 <text class="b rise" x="316" y="174" font-size="14" fill="#416B95" style="animation-delay:300ms">Active days</text>
 <text class="d rise" x="584" y="148" font-size="46" fill="#0B1F3A" style="animation-delay:400ms">42</text>
 <text class="b rise" x="641.2" y="148" font-size="16" fill="#416B95" style="animation-delay:400ms">on May 18</text>
